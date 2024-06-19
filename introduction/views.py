@@ -3,7 +3,6 @@ from django.shortcuts import render,redirect
 from django.http import HttpResponse, HttpResponseBadRequest
 from .models import  FAANG, AF_session_id,login,comments,authLogin, tickits, sql_lab_table,Blogs,CF_user,AF_admin
 from django.contrib.auth import login
-import random
 import string
 import os
 from hashlib import md5
@@ -13,7 +12,6 @@ from django.contrib import messages
 #*****************************************Lab Requirements****************************************************#
 
 from .models import  FAANG,login,comments,otp
-from random import randint
 from xml.dom.pulldom import START_ELEMENT
 from xml.sax.handler import feature_external_ges
 from django.views.decorators.csrf import csrf_exempt
@@ -35,6 +33,7 @@ import re
 import defusedxml.pulldom
 import defusedxml.sax
 from security import safe_requests, safe_command
+import secrets
 
 #*****************************************Login and Registration****************************************************#
 
@@ -485,7 +484,7 @@ def login_otp(request):
 def Otp(request):
     if request.method=="GET":
         email=request.GET.get('email')
-        otpN=randint(100,999)
+        otpN=secrets.SystemRandom().randint(100,999)
         if email and otpN:
             if email=="admin@pygoat.com":
                 otp.objects.filter(id=2).update(otp=otpN)
@@ -669,7 +668,7 @@ def a10_lab2(request):
 #*********************************************************A11*************************************************#
 
 def gentckt():
-    return (''.join(random.choices(string.ascii_uppercase + string.ascii_lowercase, k=10)))
+    return (''.join(secrets.SystemRandom().choices(string.ascii_uppercase + string.ascii_lowercase, k=10)))
 
 def insec_desgine(request):
     if request.user.is_authenticated:
