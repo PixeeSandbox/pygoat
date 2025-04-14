@@ -41,6 +41,14 @@ import requests
 import re
 #*****************************************Login and Registration****************************************************#
 
+def get_hash(request):
+    # Return hash of the given string from the request
+    if request.method == 'GET':
+        string = request.GET.get('string')
+        if string:
+            return render(request, 'Lab/hash.html', {'hash': md5(string.encode()).hexdigest()})
+        return render(request, 'Lab/hash.html')
+
 def register(request):
 	if request.method == "POST":
 		form = NewUserForm(request.POST)
